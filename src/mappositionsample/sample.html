@@ -4,62 +4,7 @@
         <title>Google Map Polyline Sample</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            #map_canvas{
-                width: 780px;
-                height: 300px;
-            }
-            table {
-                width: 780px;
-                max-height: 100px;
-                border-collapse: collapse;
-                margin-top: 3px;
-                table-layout: fixed;
-                word-wrap: break-word;                
-            }
-            thead{
-                background: darkgray;
-                position: absolute;left: 0px;top: 315px;
-                height: 23px;
-                overflow-y: hidden;
-                overflow-x: hidden;
-            }
-            tr td{
-                font-size: 9;
-                border: solid 1px;
-            }
-            tbody{
-                height: 90px;
-                position: absolute;left: 0px; top: 337px;
-                overflow-y: scroll;
-                overflow-x: hidden;
-                table-layout: fixed;
-            }
-            .latlngNo{
-                width: 30px;
-            }
-            .latlng{
-                width: 200px;
-            }
-            .description{
-                width: 200px
-            }
-            .inputDesc{
-                width: 190px;
-            }
-            .linecolor {
-                width: 60px;
-            }
-            .inputColor {
-                width: 50px;
-            }
-            .btn{
-                width: 80px;
-            }
-            .inputBtn{
-                width: 70px;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="sample.css" />
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
         <script src="jquery.js"></script>
         <script src="sample.js"></script>
@@ -81,5 +26,6 @@
                 <tbody id="points"></tbody>
             </table>
         </div>
+        <div><button type="button" id="saveBtn" >save to json</button></div>
     </body>
 </html>

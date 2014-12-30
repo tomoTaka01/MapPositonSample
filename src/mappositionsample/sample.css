@@ -1,0 +1,63 @@
+/* 
+    Created on : 2014/12/30, 15:13:46
+    Author     : tomo
+*/
+#map_canvas{
+    width: 780px;
+    height: 350px;
+}
+table {
+    width: 780px;
+    max-height: 120px;
+    border-collapse: collapse;
+    margin-top: 3px;
+    table-layout: fixed;
+    word-wrap: break-word;                
+}
+thead{
+    background: darkgray;
+    position: absolute;left: 0px;top: 365px;
+    height: 23px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+tr td{
+    font-size: 9;
+    border: solid 1px;
+}
+tbody{
+    height: 110px;
+    position: absolute;left: 0px; top: 388px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    table-layout: fixed;
+}
+.latlngNo{
+    width: 30px;
+}
+.latlng{
+    width: 200px;
+}
+.description{
+    width: 200px
+}
+.inputDesc{
+    width: 190px;
+}
+.linecolor {
+    width: 60px;
+}
+.inputColor {
+    width: 50px;
+}
+.btn{
+    width: 80px;
+}
+.inputBtn{
+    width: 70px;
+}
+#saveBtn {
+    position: absolute;left: 2px; top: 510px; 
+    font: 15px arial, sans-serif;
+    background: darkcyan;
+}

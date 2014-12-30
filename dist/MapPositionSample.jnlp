@@ -11,7 +11,8 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="MapPositionSample.jar" size="2720" download="eager" />
+    <jar href="MapPositionSample.jar" size="77879" download="eager" />
+    <jar href="lib/json_simple-1.1.jar" size="16046" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="MapPositionSample" >
     <param name="requiredFXVersion" value="8.0+"/>
