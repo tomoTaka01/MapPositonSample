@@ -2,6 +2,7 @@
  * sample.js
  */
 var map;
+var initPolyLine;
 var infos = [
     {place: 'KIX', lat: 34.4342, lng: 135.2328},
     {place: 'SFO', lat: 37.6189, lng: -122.3750}
@@ -51,7 +52,7 @@ function initMap(){
         path:paths,
         editable:true
     };
-    new google.maps.Polyline(polylineOpt);    
+    initPolyLine = new google.maps.Polyline(polylineOpt);    
 }
 
 /*
@@ -89,7 +90,7 @@ function addTr(pointObj){
             })
             .appendTo(tdDesc);
     tdDesc.appendTo(tr);
-    // linecolor
+    // Color Picker
     var tdColor = $('<td>').addClass("linecolor");
     $('<input>').attr('type', 'color').val(pointObj.color).addClass("inputColor")
             .attr('selno', pointObj.pointNo)
@@ -98,9 +99,25 @@ function addTr(pointObj){
                 // set color
                 var selNo = inColor.attr('selno');
                 pointsInfo.setColor(selNo, inColor.val());
+                // set color input
+                inColor.parent().next('.linecolor').children('input').val(inColor.val());
             })
             .appendTo(tdColor);
     tdColor.appendTo(tr);
+    // Color input
+    var tdColor2 = $('<td>').addClass("linecolor");
+    $('<input>').val(pointObj.color).addClass("inputColor").attr('name', 'inColor')
+            .attr('selno', pointObj.pointNo)
+            .change(function(event){
+                var inColor = $(this);
+                // set color
+                var selNo = inColor.attr('selno');
+                pointsInfo.setColor(selNo, inColor.val());
+                // set color picker
+                inColor.parent().prev('.linecolor').children('input').val(inColor.val());
+            })
+            .appendTo(tdColor2);
+    tdColor2.appendTo(tr);
     // delete Button
     var tdBtn = $('<td>').addClass("btn");
     $('<input>').attr('type', 'button').addClass("inputBtn").attr('value', 'delete')
@@ -190,13 +207,64 @@ var pointsInfo = {
     },
     getInfoList:function(){
         return this.infoList;
+    },
+    deleteAllMarkers:function(){
+        this.markers.forEach(function(marker){
+            marker.setMap(null);
+        });
     }
 };
 /*
  * [save to json] button event
  */        
 function saveJson(){
+    // remove deleted info
+    var newList = [];
+    pointsInfo.infoList.forEach(function(info){
+        if (!info.isDeleted){
+            delete info.latlng;
+            newList.push(info);
+        }
+    });
     // call java method
-    var infos = JSON.stringify(pointsInfo.infoList);
+    var infos = JSON.stringify(newList);
     app.getInfoList(infos);
+}
+
+/*
+ * add table tr & draw polyline from Json file.
+ * called by JavaFX
+ */
+function drawPolylineFromJson(pointsListJson){
+    // clear map & table
+    pointsInfo.pointNo = -1; // reset no
+    pointsInfo.deleteAllMarkers(); // remove all markers from map
+    initPolyLine.setMap(null); // remove KIX - SFO Polyline
+    var tbody = $('#points');
+    tbody.children().remove();
+    var kixLatLng = infos[0];
+    var sfoLatLng = infos[1];
+    var prevPath = new google.maps.LatLng(kixLatLng.lat, kixLatLng.lng);
+    pointsListJson.forEach(function(info){
+        pointsInfo.addPoint(info);
+        // add point to table 
+        addTr(pointsInfo.getPoint());
+        // create polyline
+        var thisPath = new google.maps.LatLng(info.lat, info.lng);
+        var polylineOpt = {
+           map: map,
+           path: [prevPath, thisPath],
+           strokeColor: info.color
+       };
+       new google.maps.Polyline(polylineOpt);    
+       prevPath = thisPath;
+    });
+    // last place - SFO
+    var sfoPath = new google.maps.LatLng(sfoLatLng.lat, sfoLatLng.lng);
+    var polylineOpt = {
+       map: map,
+       path: [prevPath, sfoPath],
+       strokeColor: '#000000'
+    };
+    new google.maps.Polyline(polylineOpt);    
 }
